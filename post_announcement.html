@@ -1,0 +1,60 @@
+<html>
+
+<head>
+  <title>Post an announcement</title>
+</head>
+
+<h1>Post an announcement</h1>
+
+<form class="postAnnouncement">
+    <div>
+		<label>Announcement Title</label>
+        <input type="text" id="annoncementTitle">
+    </div>
+    <div>
+		<label>Content</label>
+        <textarea type="text" id="announcementContent" style="width:100%; height:50%; box-sizing: border-box;" size="10"></textarea>
+    </div>
+	<button id="Post" type="button" onclick="postAnnouncement()">
+        <i>Post</i>
+    </button>
+	<button id="Cancel" type="button" onclick="cancelAnnouncement()">
+        <i>Cancel</i>
+    </button>
+</form>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+<script>
+  var config = {
+    apiKey: "AIzaSyAvVTgyZW_IpBkNyWKDUFnJjNKlDlcl7Bo",
+    authDomain: "kaist-scms.firebaseapp.com",
+    databaseURL: "https://kaist-scms.firebaseio.com",
+    projectId: "kaist-scms",
+    storageBucket: "kaist-scms.appspot.com",
+    messagingSenderId: "716217260337"
+  };
+  firebase.initializeApp(config);
+</script>
+
+<script>
+function postAnnouncement(club,member) {
+	var title=document.getElementById("announcementTitle").value;
+	var content=document.getElementById("announcementContent").value;
+	var date = new Date();
+	date = date.toDateString();
+	var announcementData = {
+    author: member,
+    body: content,
+    title: title,
+    date: date
+  };
+	var newAnnouncementKey = firebase.database().ref().child('announcement').push().key;
+	var updates = {};
+	updates['/announcement/' + newAnnouncementKey] = announcementData;
+	return firebase.database().ref().update(updates);
+}
+</script>
+
+
+</html>
