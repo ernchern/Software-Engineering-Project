@@ -158,32 +158,57 @@
         </header><!-- /header -->
         <!-- Header-->
 
-        <div class="d-flex align-content-center flex-wrap">
+        <div class="content mt-3 align-content-center">
             <div class="container">
-                <div class="login-content" style="margin-top: 0">
-                    <div class="login-form">
-                        <div class="form-group">
-                            <label class=" form-control-label">Club Name</label>
-                            <input type="text" id="club_name" placeholder="Enter your club name" class="form-control">
+
+                <!--HERE GOES THE CONTENT-->
+                <!--BELOW IS EXAMPLE-->
+                <div class="col-xl-4">
+                    <div class="card" >
+                        <div class="card-header">
+                            <h4 id="header-current">Current members</h4>
                         </div>
-                        <div class="form-group">
-                            <label class=" form-control-label">Club Description</label>
-                            <textarea id="club_desc" rows="9" placeholder="Short description..." class="form-control"></textarea>
+                        <ul class="list-group list-group-flush" id="current_members">
+                            <li class="list-group-item">
+                                <a href="student-profile.html?student=20140904"> 20140904 <span class="pull-right">Alisher Tortay</span></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="student-profile.html?student=20140904"> 20140940 <span class="pull-right">Kate Abileva</span></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="student-profile.html?student=20140904"> 20160888 <span class="pull-right">Ern Chern</span></a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="student-profile.html?student=20140904"> 20160843 <span class="pull-right">Bun Verdenz</span></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-xl-8">
+                    <div class="card" >
+                        <div class="card-header">
+                            <h4 id="header-add">Add new member</h4>
                         </div>
-                        <div class="form-group">
-                            <label class=" form-control-label">Club Profile Picture</label>
-                            <input type="file" id="club_pic" accept="image/*" class="form-control-file">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-3"><label for="text-input" class=" form-control-label">Student ID</label></div>
+                                <div class="col-md-7"><input type="text" id="text-input" name="text-input" placeholder="12345678" class="form-control"></div>
+                                <div class="col-md-2"><button class="btn btn-primary btn-flat" id="search_student" style="width: 100%">Search</button></div>
+                            </div>
+                            <div class="row" style="margin-top: 30px" id="search_result">
+                                <div class="col-md-3"><a href="student-profile.html?student=20140904"> 20140904</a></div>
+                                <div class="col-md-7"><a href="student-profile.html?student=20140904"> Alisher Tortay</a></div>
+                                <div class="col-md-2"><button class="btn btn-success btn-flat" id="add_student" style="width: 100%">Add</button></div>
+                            </div>
                         </div>
-                        <button id="create_club" class="btn btn-success btn-flat m-b-30 m-t-30">Create Club Page</button>
+
                     </div>
                 </div>
             </div>
-        </div>
+        </div> <!-- .content -->
     </div><!-- /#right-panel -->
 
     <!-- Right Panel -->
-
-
 
     <script src="assets/js/vendor/jquery-2.1.4.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
@@ -192,7 +217,7 @@
     <!--<script src="javascript/main.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
-    <script src="javascript/createclub.js"></script>
+    <script src="javascript/addmember.js"></script>
 
 </body>
 </html>

@@ -1,6 +1,8 @@
 /**
  * Created by alisher on 5/27/18.
  */
+var club;
+
 $( document ).ready( function () {
     var config = {
     apiKey: "AIzaSyAvVTgyZW_IpBkNyWKDUFnJjNKlDlcl7Bo",
@@ -9,10 +11,19 @@ $( document ).ready( function () {
     projectId: "kaist-scms",
     storageBucket: "kaist-scms.appspot.com",
     messagingSenderId: "716217260337"
-  };
+    };
     firebase.initializeApp(config);
     var database = firebase.database();
     var storage = firebase.storage();
+
+    // Get query parameters
+    var urlParams = new URLSearchParams(window.location.search);
+    console.log(urlParams.has('club')); // true
+    console.log(urlParams.get('club')); // "edit"
+    club = urlParams.get('club');
+
+    populate_page(club);
+
     $("#create_club").click(function() {
         const club_name = myTrim($("#club_name").val());
         const club_desc = myTrim($("#club_desc").val());
@@ -43,6 +54,7 @@ $( document ).ready( function () {
     });
 });
 
-function myTrim(x) {
-    return x.replace(/^\s+|\s+$/gm,'');
+function populate_page(club) {
+    $("#header-add").text("Add new members to " + club);
+    $("#header-current").text("Current members of " + club);
 }
