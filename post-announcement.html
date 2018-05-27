@@ -15,7 +15,7 @@
 		<label>Content</label>
         <textarea type="text" id="announcementContent" style="width:100%; height:50%; box-sizing: border-box;" size="10"></textarea>
     </div>
-	<button id="Post" type="button" onclick="postAnnouncement()">
+	<button id="Post" type="button" onclick="postAnnouncement(club)">
         <i>Post</i>
     </button>
 	<button id="Cancel" type="button" onclick="cancelAnnouncement()">
@@ -25,6 +25,7 @@
 
 
 <script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+
 <script>
   var config = {
     apiKey: "AIzaSyAvVTgyZW_IpBkNyWKDUFnJjNKlDlcl7Bo",
@@ -38,21 +39,19 @@
 </script>
 
 <script>
-function postAnnouncement(club,member) {
+function postAnnouncement(club) {
+	var user = firebase.auth().currentUser;
 	var title=document.getElementById("announcementTitle").value;
 	var content=document.getElementById("announcementContent").value;
 	var date = new Date();
 	date = date.toDateString();
 	var announcementData = {
-    author: member,
-    body: content,
-    title: title,
-    date: date
+    announcement_author: user,
+    announcement_body: content,
+    announcement_title: title,
+    announcement_date: date
   };
-	var newAnnouncementKey = firebase.database().ref().child('announcement').push().key;
-	var updates = {};
-	updates['/announcement/' + newAnnouncementKey] = announcementData;
-	return firebase.database().ref().update(updates);
+	var newAnnouncementKey = firebase.database().ref().child('clubs'+club.club_title).child(announcement_title).set(annoncementData);
 }
 </script>
 
