@@ -169,18 +169,18 @@
                             <h4 id="header-current">Current members</h4>
                         </div>
                         <ul class="list-group list-group-flush" id="current_members">
-                            <li class="list-group-item">
-                                <a href="student-profile.html?student=20140904"> 20140904 <span class="pull-right">Alisher Tortay</span></a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="student-profile.html?student=20140904"> 20140940 <span class="pull-right">Kate Abileva</span></a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="student-profile.html?student=20140904"> 20160888 <span class="pull-right">Ern Chern</span></a>
-                            </li>
-                            <li class="list-group-item">
-                                <a href="student-profile.html?student=20140904"> 20160843 <span class="pull-right">Bun Verdenz</span></a>
-                            </li>
+                            <!--<li class="list-group-item">-->
+                                <!--<a href="student-profile.html?student=20140904"> 20140904 <span class="pull-right">Alisher Tortay</span></a>-->
+                            <!--</li>-->
+                            <!--<li class="list-group-item">-->
+                                <!--<a href="student-profile.html?student=20140904"> 20140940 <span class="pull-right">Kate Abileva</span></a>-->
+                            <!--</li>-->
+                            <!--<li class="list-group-item">-->
+                                <!--<a href="student-profile.html?student=20140904"> 20160888 <span class="pull-right">Ern Chern</span></a>-->
+                            <!--</li>-->
+                            <!--<li class="list-group-item">-->
+                                <!--<a href="student-profile.html?student=20140904"> 20160843 <span class="pull-right">Bun Verdenz</span></a>-->
+                            <!--</li>-->
                         </ul>
                     </div>
                 </div>
@@ -191,14 +191,19 @@
                         </div>
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-md-3"><label for="text-input" class=" form-control-label">Student ID</label></div>
-                                <div class="col-md-7"><input type="text" id="text-input" name="text-input" placeholder="12345678" class="form-control"></div>
+                                <div class="col-md-3"><label class=" form-control-label">Student ID</label></div>
+                                <div class="col-md-7"><input type="text" id="id-input" placeholder="12345678" class="form-control"></div>
                                 <div class="col-md-2"><button class="btn btn-primary btn-flat" id="search_student" style="width: 100%">Search</button></div>
                             </div>
                             <div class="row" style="margin-top: 30px" id="search_result">
-                                <div class="col-md-3"><a href="student-profile.html?student=20140904"> 20140904</a></div>
-                                <div class="col-md-7"><a href="student-profile.html?student=20140904"> Alisher Tortay</a></div>
-                                <div class="col-md-2"><button class="btn btn-success btn-flat" id="add_student" style="width: 100%">Add</button></div>
+                                <!--<div class="col-md-3"><a href="student-profile.html?student=20140904"> 20140904</a></div>-->
+                                <!--<div class="col-md-7"><a href="student-profile.html?student=20140904"> Alisher Tortay</a></div>-->
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="row">
+                                <div class="col-md-2 offset-md-8"><button class="btn btn-success btn-flat" id="add_student" style="width: 100%">Add</button></div>
+                                <div class="col-md-2"><button class="btn btn-danger btn-flat" id="cancel_addition" style="width: 100%">Cancel</button></div>
                             </div>
                         </div>
 
@@ -214,7 +219,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js"></script>
     <script src="assets/js/plugins.js"></script>
     <script src="assets/js/main.js"></script>
-    <!--<script src="javascript/main.js"></script>-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script src="javascript/addmember.js"></script>
