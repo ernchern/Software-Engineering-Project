@@ -15,7 +15,7 @@
 		<label>Content: </label>
         <textarea type="text" id="announcementContent" style="width:100%; height:50%; box-sizing: border-box;" size="10"></textarea>
     </div>
-	<button type="button" onclick="postAnnouncement(club)">
+	<button type="button" onclick="postAnnouncement()">
         <i>Post</i>
     </button>
 	<button type="button" onclick="cancelAnnouncement()">
@@ -39,8 +39,8 @@
 </script>
 
 <script>
-function postAnnouncement(club) {
-	var user = firebase.auth().currentUser;
+function postAnnouncement() {
+	var user = firebase.auth().currentUser.id;
 	var title=document.getElementById("announcementTitle").value;
 	var content=document.getElementById("announcementContent").value;
 	var date = new Date();
@@ -51,7 +51,7 @@ function postAnnouncement(club) {
     announcement_title: title,
     announcement_date: date
   };
-	var newAnnouncementKey = firebase.database().ref().child('clubs'+club.club_title).child(announcement_title).set(annoncementData);
+	var newAnnouncementKey = firebase.database().ref().child('clubs\'+ club).child(announcement_title).set(annoncementData);
 }
 </script>
 
