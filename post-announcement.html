@@ -50,7 +50,7 @@ function postAnnouncement() {
     announcement_body: content,
     announcement_date: date
   };
-	var newAnnouncementKey = firebase.database().ref().child('clubs\'+club+'\announcement').child(title).set(annoncementData);
+	var newAnnouncementKey = firebase.database().ref().child('clubs\'+club+'\announcement'+title).set(annoncementData);
 }
 </script>
 
