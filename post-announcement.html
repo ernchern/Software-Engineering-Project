@@ -40,7 +40,7 @@
 
 <script>
 function postAnnouncement() {
-	var user = firebase.auth().currentUser.id;
+	var user = firebase.auth().currentUser.name;
 	var title=document.getElementById("announcementTitle").value;
 	var content=document.getElementById("announcementContent").value;
 	var date = new Date();
