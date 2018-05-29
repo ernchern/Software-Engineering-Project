@@ -60,7 +60,7 @@
 <p id="club description"></p>
 
 <script>
-var club="KIFC";
+//var club="KIFC";
 document.getElementById("club name").innerHTML = club;
 firebase.database().ref('clubs/'+club).on("value",
 function (snapshot) {
@@ -71,8 +71,34 @@ function (snapshot) {
 <div class="row">
   <div class="column left">
     <h2>Member List</h2>
+	<ul id="admin list"></ul>
+	<ul id="member list"></ul>
     <script>
+	firebase.database().ref("clubs/"+club+"/admin").on('value', function (snapshot) {
+        var admin = snapshot.val();
+        console.log(admin);
+        var id;
+		var html="";
+        for (id in admin) {
+            if (admin.hasOwnProperty(id)) {
+                html=html+"<li>" +admin[id]+" (admin)" + "</li>";	
+            }
+        }
+		document.getElementById("admin list").innerHTML = html;
+    });
 	
+	firebase.database().ref("clubs/"+club+"/members").on('value', function (snapshot) {
+        var members = snapshot.val();
+        console.log(members);
+        var id;
+		var html="";
+        for (id in members) {
+            if (members.hasOwnProperty(id)) {
+                html=html+"<li>" +members[id] + "</li>";	
+            }
+        }
+		document.getElementById("member list").innerHTML = html;
+    });
 	</script>
   </div>
   <div class="column middle">
