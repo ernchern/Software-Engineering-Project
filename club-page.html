@@ -73,7 +73,30 @@ function (snapshot) {
     <h2>Member List</h2>
 	<ul id="admin list"></ul>
 	<ul id="member list"></ul>
-    <script>
+  </div>
+  <div class="column middle">
+    <h2>Announcement Board</h2>
+    <p>Some text..</p>
+  </div>
+  <div class="column right">
+	<h2>Option</h2>
+	<body class="btn-group">
+    <button type="button" onclick="post-announcement()">
+        <i>Post an announcement</i>
+    </button>
+	<p></p>
+	<button type="button" onclick="add-member()">
+        <i>Add a new member</i>
+    </button>
+	<p></p>
+	<button type="button" onclick="remove-member()">
+        <i>Remove a member</i>
+    </button>
+	</body>
+  </div>
+</div>
+</body>
+<script>
 	firebase.database().ref("clubs/"+club+"/admin").on('value', function (snapshot) {
         var admin = snapshot.val();
         console.log(admin);
@@ -100,31 +123,6 @@ function (snapshot) {
 		document.getElementById("member list").innerHTML = html;
     });
 	</script>
-  </div>
-  <div class="column middle">
-    <h2>Announcement Board</h2>
-    <p>Some text..</p>
-  </div>
-  <div class="column right">
-	<h2>Option</h2>
-	<body class="btn-group">
-    <button type="button" onclick="post-announcement()">
-        <i>Post an announcement</i>
-    </button>
-	<p></p>
-	<button type="button" onclick="add-member()">
-        <i>Add a new member</i>
-    </button>
-	<p></p>
-	<button type="button" onclick="remove-member()">
-        <i>Remove a member</i>
-    </button>
-	</body>
-  </div>
-</div>
-
-</body>
-
 
 
 </html>
