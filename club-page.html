@@ -75,7 +75,7 @@
 <p id="club description"></p>
 
 <script>
-var club="PUD badminton";
+//var club="PUD badminton";
 document.getElementById("club name").innerHTML = club;
 firebase.database().ref('clubs/'+club).on("value",
 function (snapshot) {
