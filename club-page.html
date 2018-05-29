@@ -15,10 +15,12 @@
 
 .left, .right {
   width: 25%;
+  padding:10px;
 }
 
 .middle {
   width: 50%;
+  padding:10px;
 }
 
 .row:after {
@@ -35,6 +37,19 @@
     width: 100%;
     display: block;
 	padding: 10px 24px;
+}
+
+.button {
+    background: white;
+    border: solid;
+    color: black;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
 }
 
 </style>
@@ -60,7 +75,7 @@
 <p id="club description"></p>
 
 <script>
-//var club="KIFC";
+var club="PUD badminton";
 document.getElementById("club name").innerHTML = club;
 firebase.database().ref('clubs/'+club).on("value",
 function (snapshot) {
@@ -73,30 +88,7 @@ function (snapshot) {
     <h2>Member List</h2>
 	<ul id="admin list"></ul>
 	<ul id="member list"></ul>
-  </div>
-  <div class="column middle">
-    <h2>Announcement Board</h2>
-    <p>Some text..</p>
-  </div>
-  <div class="column right">
-	<h2>Option</h2>
-	<body class="btn-group">
-    <button type="button" onclick="post-announcement()">
-        <i>Post an announcement</i>
-    </button>
-	<p></p>
-	<button type="button" onclick="add-member()">
-        <i>Add a new member</i>
-    </button>
-	<p></p>
-	<button type="button" onclick="remove-member()">
-        <i>Remove a member</i>
-    </button>
-	</body>
-  </div>
-</div>
-</body>
-<script>
+    <script>
 	firebase.database().ref("clubs/"+club+"/admin").on('value', function (snapshot) {
         var admin = snapshot.val();
         console.log(admin);
@@ -122,7 +114,43 @@ function (snapshot) {
         }
 		document.getElementById("member list").innerHTML = html;
     });
+	
+	firebase.database().ref("clubs/"+club+"/announcement_list").on('value', function (snapshot) {
+        var announcement = snapshot.val();
+        console.log(announcement);
+        var id;
+		var html="";
+        for (id in announcement) {
+                html=html+"<main style='border-style: solid; padding:10px;'><p  style='font-weight: bold;'>" +announcement[id].announcement_title 
+			+ "</p><p>"+announcement[id].announcement_body+"</p><p style='font-style: italic;'> posted by "+announcement[id].announcement_author
+			+" on "+announcement[id].announcement_date+"</p></main>";
+        }
+		document.getElementById("announcement").innerHTML = html;
+    });
 	</script>
+  </div>
+  <div class="column middle">
+    <h2>Announcement Board</h2>
+    <p id="announcement"></p>
+  </div>
+  <div class="column right">
+	<h2>Option</h2>
+	<body class="btn-group">
+    <button class="button" type="button" onclick="post-announcement()">
+        <i>Post an announcement</i>
+    </button>
+	<p></p>
+	<button class="button" type="button" onclick="add-member()">
+        <i>Add a new member</i>
+    </button>
+	<p></p>
+	<button class="button" type="button" onclick="remove-member()">
+        <i>Remove a member</i>
+    </button>
+	</body>
+  </div>
+</div>
 
+</body>
 
 </html>
