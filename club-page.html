@@ -75,7 +75,10 @@
 <p id="club description"></p>
 
 <script>
-//var club="PUD badminton";
+var str = decodeURIComponent(window.location.search);
+var theleft = str.indexOf("=") + 1;
+var club=str.substring(theleft,str.length);
+///var club="PUD badminton";
 document.getElementById("club name").innerHTML = club;
 firebase.database().ref('clubs/'+club).on("value",
 function (snapshot) {
@@ -109,7 +112,7 @@ function (snapshot) {
 		var html="";
         for (id in members) {
             if (members.hasOwnProperty(id)) {
-                html=html+"<li>" +members[id] + "</li>";	
+                html=html+"<li>" +members[id] + "</li><p></p>";	
             }
         }
 		document.getElementById("member list").innerHTML = html;
@@ -122,11 +125,12 @@ function (snapshot) {
 		var html="";
         for (id in announcement) {
                 html=html+"<main style='border-style: solid; padding:10px;'><p  style='font-weight: bold;'>" +announcement[id].announcement_title 
-			+ "</p><p>"+announcement[id].announcement_body+"</p><p style='font-style: italic;'> posted by "+announcement[id].announcement_author
-			+" on "+announcement[id].announcement_date+"</p></main>";
+						+ "</p><p>"+announcement[id].announcement_body+"</p><p style='font-style: italic;'> posted by "+announcement[id].announcement_author
+						+" on "+announcement[id].announcement_date+"</p></main>";
         }
 		document.getElementById("announcement").innerHTML = html;
     });
+
 	</script>
   </div>
   <div class="column middle">
@@ -136,21 +140,28 @@ function (snapshot) {
   <div class="column right">
 	<h2>Option</h2>
 	<body class="btn-group">
-    <button class="button" type="button" onclick="post-announcement()">
+    <button class="button" type="button" id="post">
         <i>Post an announcement</i>
     </button>
 	<p></p>
-	<button class="button" type="button" onclick="add-member()">
+	<button class="button" type="button" id="add-member">
         <i>Add a new member</i>
     </button>
 	<p></p>
-	<button class="button" type="button" onclick="remove-member()">
+	<button class="button" type="button" id="remove-member">
         <i>Remove a member</i>
     </button>
 	</body>
   </div>
 </div>
 
-</body>
+<script>
+document.getElementById("post").onclick = function() {
+	window.location.href="post-announcement.html?club="+club;
+};
+document.getElementById("add-member").onclick = function() {
+	window.location.href="add-member.html?club="+club;
+};
+</script>
 
-</html>
+</body>
