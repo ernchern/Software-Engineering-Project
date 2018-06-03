@@ -25,6 +25,9 @@
 <strong id="success"></strong>
 <div id="return"></div>
 <script>
+var str = decodeURIComponent(window.location.search);
+var theleft = str.indexOf("=") + 1;
+var club=str.substring(theleft,str.length);
 document.getElementById("post").addEventListener("click", function() {
     postAnnouncement(club);
 });
