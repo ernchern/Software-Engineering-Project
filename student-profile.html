@@ -135,7 +135,7 @@
 
     <!-- Left Panel -->
 
-    <!-- Right Panel -->
+
 
     <!-- Right Panel -->
 
@@ -270,8 +270,7 @@
 
         <div class="content mt-3">
             <div class="animated fadeIn">
-                <div class="row">
-                    <div class = "col"> </div>
+                <div class="row">  <!-- row for clubs and button -->
                     <div class="col-md-4">
                         <div class="card">
                             <div class="card-body">
@@ -285,16 +284,44 @@
                         </div>
 
                     </div>
-                        <div class = "col"> </div>
-                        <div class = "col" id="club-name">
-                            <h5> Clubs entered </h5>
-                            <ul>
 
-                            </ul>
-                        </div>
-                        <div class = "col"> </div>
-                </div><!-- .row -->
-            </div><!-- .animated -->
+                    <div class = "col-md-8"> <!-- col for clubs entered and clubs managed -->
+                        <div class = "row"> <!-- row for clubs entered and clubs managed -->
+                            <div class = "col"> <!--clubs entered-->
+                                <div class="card" >
+                                    <div class = "card-header">
+                                        <h6 id="clubs-entered">Clubs entered </h6>
+                                            <ul>
+
+                                            </ul>
+                                    </div>
+                                </div>
+                            </div> <!--clubs entered-->
+                            <div class = "col"> <!--clubs managed-->
+
+                                <div class="card" >
+                                    <div class = "card-header">
+                                        <h6 id="clubs-managed">Clubs managed </h6>
+                                            <ul>
+
+                                            </ul>
+                                    </div>
+                                </div>
+                            </div> <!--clubs managed-->
+                        </div> <!-- row for clubs entered and clubs managed -->
+                        <div class = "row"> 
+                            <div class = "col-md-3 offset-md-2 mr-auto ml-auto">
+                                <a href="create-club.html">
+                                    <button type="button" class="btn btn-secondary">
+                                        <i class="fa fa-plus-square-o"></i>&nbsp; Create club
+                                    </button>
+                                </a>
+                          </div>
+                      </div>
+                    </div> <!-- col for clubs entered and clubs managed -->
+
+                </div> <!-- row for clubs and button -->
+            </div>
         </div><!-- .content -->
         <div class="content">
             <div class="animated fadeIn" id = "feed">

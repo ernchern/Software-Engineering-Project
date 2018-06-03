@@ -17,10 +17,7 @@ $( document ).ready( function () {
     //var student_id = 20140940;
     //var studentId = firebase.auth().currentUser.uid;
     var urlParams = new URLSearchParams(window.location.search);
-    console.log(urlParams.has('student')); // true
-    console.log(urlParams.get('student')); // "edit"
     student_id = urlParams.get('student');
-
     //populate_page(student_id);
 
     database.ref('students/' + student_id).once("value").then(function (snapshot) {
@@ -35,7 +32,7 @@ $( document ).ready( function () {
                 let ii = I; //make I constant for one iteration;
                 var club = clubs_entered[ii];
                 clubsList = "<li class='list-group-item'><a href='club-page.html?club=" + club+ "'>" + club + "</a></li>";
-                document.getElementById("club-name").innerHTML += clubsList;
+                document.getElementById("clubs-entered").innerHTML += clubsList;
                
                 var query = firebase.database().ref("clubs/"+clubs_entered[ii]+"/announcement_list").orderByKey();
                 query.once("value")
@@ -50,9 +47,6 @@ $( document ).ready( function () {
                             var date = childSnapshot.val()["announcement_date"];
                             var title = childSnapshot.val()["announcement_title"];
                             
-                            console.log(clubs_entered);
-                            console.log(ii);
-                            console.log(club);
                             //add announcement to html
                              announcement = 
                              '<div class="row">\
@@ -81,8 +75,25 @@ $( document ).ready( function () {
                     });
                 });
         }
+
     
     });
+    var managed_clubs = [];
+    var ref = firebase.database().ref("clubs");
+    ref.once("value")
+      .then(function(snapshot) {
+            snapshot.forEach(function(childSnapshot) {
+                var clubExist = childSnapshot.child("admin/"+student_id).exists();
+                if (clubExist) {
+                managed_clubs.push(childSnapshot.key);
+                console.log(childSnapshot.key);
+                console.log(managed_clubs);
+                managedClubsList = "<li class='list-group-item'><a href='club-page.html?club=" + childSnapshot.key+ "'>" + childSnapshot.key + "</a></li>";
+                document.getElementById("clubs-managed").innerHTML += managedClubsList;
+            }     
+        });
+    });
+    
 });
 
 
