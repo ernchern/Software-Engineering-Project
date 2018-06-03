@@ -22,10 +22,12 @@
         <i>Cancel</i>
     </button>
 </form>
+<strong id="success"></strong>
+<div id="return"></div>
 <script>
 document.getElementById("post").addEventListener("click", function() {
     postAnnouncement(club);
-}, false);
+});
 </script>
 
 
@@ -41,7 +43,7 @@ document.getElementById("post").addEventListener("click", function() {
     messagingSenderId: "716217260337"
   };
   firebase.initializeApp(config);
-
+  //var club="KIFC";
 </script>
 <script>
 
@@ -70,8 +72,14 @@ function postAnnouncement(club) {
 	var newAnnouncementKey = firebase.database().ref().child('clubs').child(club).child('announcement_list').push().key;
 	var updates = {};
     	updates['/clubs/'+club+'/announcement_list/' + newAnnouncementKey] = announcementData;
-    	return firebase.database().ref().update(updates);
+    	firebase.database().ref().update(updates);
+	document.getElementById("success").innerHTML="Successfully posted! Click to return to club page.";
+	document.getElementById("return").innerHTML="<button type='button' onclick=return_club()><i>Click</i></button>";
 }
+function return_club() {
+	window.location="club-page.html?club="+club;
+}
+
 function cancelAnnouncement() {
 	document.getElementById("announcementTitle").value = "";
 	document.getElementById("announcementContent").value = "";
