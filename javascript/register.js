@@ -18,14 +18,14 @@ var config = {
     
     $( document ).ready( function () {
         // Get query parameters        
-
+        console.log("in?")
         $('#registerSubmit').click(function () {  
 
             student_id = $('#userRegister').val()
             var name = $('#nameRegister').val()
             var email = $('#emailRegsiter').val()
             var password = $('#passwordRegister').val()
-            console.log(studentID,name,email, password)
+            console.log(student_id,name,email, password)
             console.log("hey");
             if (student_id !== 0) {
                 console.log("inside if");
