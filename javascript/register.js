@@ -33,10 +33,6 @@ var config = {
                     student_name: name,
                     email: email,
                     password: password
-                }).then(function (snapshot) {                    
-                    student_id = 0;
-                    student_name = '';
-
                 });
             }
             
