@@ -13,20 +13,33 @@ var config = {
     var database = firebase.database();
     var storage = firebase.storage();
     var club;
-    var student_id = 0;
+    // var student_id = 0;
     var student_name = '';
     
     $( document ).ready( function () {
         // Get query parameters        
         console.log("in?")
-        $('#registerSubmit').click(function () {  
+        console.log(name);
+        $('#checkbox').click(function(){
+            if(document.getElementById("registerSubmit").disabled == true)
+            $('#registerSubmit').prop('disabled',false);
+            else
+            $('#registerSubmit').prop('disabled',true);
+        })
 
-            student_id = $('#userRegister').val()
+        $('#registerSubmit').click(function (event) {  
+            event.preventDefault();
+            var student_id = $('#userRegister').val()
             var name = $('#nameRegister').val()
-            var email = $('#emailRegsiter').val()
+            var email = $('#emailRegister').val()
             var password = $('#passwordRegister').val()
-            console.log(student_id,name,email, password)
-            console.log("hey");
+
+            if (student_id.length === 0) {
+                alert("Please fill in the student id");
+                student_name = '';
+                student_id = 0;
+            }
+            else{
             if (student_id !== 0) {
                 console.log("inside if");
                 database.ref('students/' + student_id).set({
@@ -34,6 +47,7 @@ var config = {
                     email: email,
                     password: password
                 });
+            }
             }
             
           })
