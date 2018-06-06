@@ -1,0 +1,105 @@
+<html>
+<head>
+  <title>Post an announcement</title>
+</head>
+
+<h1>Post an announcement</h1>
+
+<form class="postAnnouncement">
+    <div>
+		<label>Announcement Title: </label>
+        <input type="text" id="announcementTitle" style="width:100%;">
+    </div>
+    <div>
+		<label>Content: </label>
+        <textarea type="text" id="announcementContent" style="width:100%; height:50%; box-sizing: border-box;" size="10"></textarea>
+    </div>
+	
+	<button type="button" id="post">
+        <i>Post</i>
+    </button>
+	<button type="button" onclick="cancelAnnouncement()">
+        <i>Cancel</i>
+    </button>
+</form>
+<strong id="success"></strong>
+<div id="return"></div>
+<script>
+var str = decodeURIComponent(window.location.search);
+var theleft = str.indexOf("=") + 1;
+var club=str.substring(theleft,str.length);
+document.getElementById("post").addEventListener("click", function() {
+    postAnnouncement(club);
+});
+</script>
+
+
+<script src="https://www.gstatic.com/firebasejs/5.0.4/firebase.js"></script>
+
+<script>
+  var config = {
+    apiKey: "AIzaSyAvVTgyZW_IpBkNyWKDUFnJjNKlDlcl7Bo",
+    authDomain: "kaist-scms.firebaseapp.com",
+    databaseURL: "https://kaist-scms.firebaseio.com",
+    projectId: "kaist-scms",
+    storageBucket: "kaist-scms.appspot.com",
+    messagingSenderId: "716217260337"
+  };
+  firebase.initializeApp(config);
+  //var club="KIFC";
+</script>
+<script>
+
+function postAnnouncement(club) {
+
+	var user_id = 0;
+	firebase.auth().onAuthStateChanged(function(user) {
+		user_id=user.displayName;
+		var title=document.getElementById("announcementTitle").value;
+	if (title==="") {
+		try {
+		alert("Please enter a title.");
+		}
+		catch(err) {
+		document.getElementById("err").innerHTML = err.message;
+		}
+		return;
+	};
+	
+	firebase.database().ref("clubs/"+club+"/member/"+user_id).on('value', function (snapshot) {
+        var name = snapshot.val();
+        console.log(name);
+		var content=document.getElementById("announcementContent").value;
+		var date = new Date();
+		date = date.toDateString();
+		//var name="Ern Chern";
+		var announcementData = {
+		announcement_author: name,
+		announcement_body: content,
+		announcement_title: title,
+		announcement_date: date
+	  };
+		//var newAnnouncementList = firebase.database().ref().child('clubs').child(club).set('announcement_list');
+		var newAnnouncementKey = firebase.database().ref().child('clubs').child(club).child('announcement_list').push().key;
+		var updates = {};
+			updates['/clubs/'+club+'/announcement_list/' + newAnnouncementKey] = announcementData;
+			firebase.database().ref().update(updates);
+		document.getElementById("success").innerHTML="Successfully posted! Click to return to club page.";
+		document.getElementById("return").innerHTML="<button type='button' onclick=return_club()><i>Click</i></button>";
+	});
+	});
+	
+	
+	}
+function return_club() {
+	window.location="club-page.html?club="+club;
+}
+
+function cancelAnnouncement() {
+	document.getElementById("announcementTitle").value = "";
+	document.getElementById("announcementContent").value = "";
+}
+</script>
+
+
+</html>
