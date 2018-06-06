@@ -13,32 +13,39 @@ var config = {
     var database = firebase.database();
     var storage = firebase.storage();
     var club;
-    var student_id = 0;
-    var student_name = '';
+    var email = '';
+    var password = '';
     
     $( document ).ready( function () {
         // Get query parameters
         
         $("#loginSubmit").click(function(event) {
             event.preventDefault();
-            student_id = $("#student_id").val();
-            student_pass = $("#password").val();
-            if (student_id.length === 0) {
+            email = $("#email").val();
+            password = $("#password").val();
+            if (email.length === 0) {
                 alert("Please fill in the student id");
-                student_name = '';
-                student_id = 0;
+                password = '';
+                email = '';
             }
-            else if(student_pass.length === 0){
+            else if(password.length === 0){
                 alert("Please fill in the password");
-                student_name = '';
-                student_id = 0;
+                password = '';
+                email = '';
             }
             else {
-                console.log(student_id);
-                firebase.auth().signInWithEmailAndPassword(email, password).catch(function(error) {
+                console.log(email);
+                firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
+                    // Sign-out successful.
+                    window.location.replace("index.html");
+                  }).catch(function(error) {
                     // Handle Errors here.
                     var errorCode = error.code;
                     var errorMessage = error.message;
+                    console.log(error);
+                    
+                    alert(errorMessage);
+                    
                     // ...
                   });
                 // database.ref('students/' + student_id).once("value").then(function (snapshot) {

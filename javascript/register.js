@@ -47,18 +47,23 @@ var config = {
                 //     email: email,
                 //     password: password
                 // });
-                firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
-                    // Handle Errors here.
-                    var errorCode = error.code;
-                    var errorMessage = error.message;
-                    if (errorCode == 'auth/weak-password') {
-                        alert('The password is too weak.');
-                      } else {
-                        alert(errorMessage);
-                      }
-                      console.log(error);
-                    // ...
-                  });
+                firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
+                    // Sign-out successful.
+                    window.location.replace("index.html");
+                  }).catch(function(error) {
+                // Handle Errors here.
+                var errorCode = error.code;
+                var errorMessage = error.message;
+                console.log(error);
+                if (errorCode == 'auth/weak-password') {
+                    alert('The password is too weak.');
+                } else {
+                    alert(errorMessage);
+                }
+                
+                });
+                
+                
             }
             }
             
@@ -67,4 +72,11 @@ var config = {
          
     });    
           
-    
+    function logUser(user,student_id) {
+        var ref = firebase.database().ref("users");
+        var obj = {
+            "user": user,
+            "student_id": student_id
+        };
+        ref.push(obj); // or however you wish to update the node
+    }
