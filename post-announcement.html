@@ -51,8 +51,9 @@ document.getElementById("post").addEventListener("click", function() {
 <script>
 
 function postAnnouncement(club) {
-	//var user="Ern Chern";
-	var user = firebase.auth().currentUser.name;
+
+	var user = firebase.auth().currentUser.student_id;
+	
 	var title=document.getElementById("announcementTitle").value;
 	if (title==="") {
 		try {
@@ -63,21 +64,28 @@ function postAnnouncement(club) {
 		}
 		return;
 	};
-	var content=document.getElementById("announcementContent").value;
-	var date = new Date();
-	date = date.toDateString();
-	var announcementData = {
-    announcement_author: user,
-    announcement_body: content,
-    announcement_title: title,
-    announcement_date: date
-  };
-	var newAnnouncementKey = firebase.database().ref().child('clubs').child(club).child('announcement_list').push().key;
-	var updates = {};
-    	updates['/clubs/'+club+'/announcement_list/' + newAnnouncementKey] = announcementData;
-    	firebase.database().ref().update(updates);
-	document.getElementById("success").innerHTML="Successfully posted! Click to return to club page.";
-	document.getElementById("return").innerHTML="<button type='button' onclick=return_club()><i>Click</i></button>";
+	
+	firebase.database().ref("clubs/"+club+"/member/"+user).on('value', function (snapshot) {
+        var name = snapshot.val();
+        console.log(name);
+		var content=document.getElementById("announcementContent").value;
+		var date = new Date();
+		date = date.toDateString();
+		//var name="Ern Chern";
+		var announcementData = {
+		announcement_author: name,
+		announcement_body: content,
+		announcement_title: title,
+		announcement_date: date
+	  };
+		//var newAnnouncementList = firebase.database().ref().child('clubs').child(club).set('announcement_list');
+		var newAnnouncementKey = firebase.database().ref().child('clubs').child(club).child('announcement_list').push().key;
+		var updates = {};
+			updates['/clubs/'+club+'/announcement_list/' + newAnnouncementKey] = announcementData;
+			firebase.database().ref().update(updates);
+		document.getElementById("success").innerHTML="Successfully posted! Click to return to club page.";
+		document.getElementById("return").innerHTML="<button type='button' onclick=return_club()><i>Click</i></button>";
+	});
 }
 function return_club() {
 	window.location="club-page.html?club="+club;
