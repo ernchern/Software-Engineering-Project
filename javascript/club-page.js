@@ -31,10 +31,13 @@ function (snapshot) {
 	document.getElementById("club description").innerHTML = snapshot.val()["club_description"];
 	});
 
-// var user_id=firebase.auth().currentUser.student_id;
-var user_id=20140940;
 
-firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function (snapshot) {
+//var user_id=20140940;
+
+var user_id=0;
+firebase.auth().onAuthStateChanged(function(user) {
+	user_id=user.displayName;
+	firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function (snapshot) {
         var member = snapshot.val();
 		console.log(member);
 		if (member!== null) {
@@ -47,7 +50,7 @@ firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function
 		};
 	});	
 
-firebase.database().ref("clubs/"+club+"/admin/"+ user_id).on('value', function (snapshot) {
+	firebase.database().ref("clubs/"+club+"/admin/"+ user_id).on('value', function (snapshot) {
         var admin = snapshot.val();
 		console.log(admin);
 		if (admin!== null) {
@@ -65,6 +68,8 @@ firebase.database().ref("clubs/"+club+"/admin/"+ user_id).on('value', function (
 		};
     });
     
+});
+
     var str = decodeURIComponent(window.location.search);
 	var theleft = str.indexOf("=") + 1;
 	var club=str.substring(theleft,str.length);
