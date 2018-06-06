@@ -42,11 +42,23 @@ var config = {
             else{
             if (student_id !== 0) {
                 console.log("inside if");
-                database.ref('students/' + student_id).set({
-                    student_name: name,
-                    email: email,
-                    password: password
-                });
+                // database.ref('students/' + student_id).set({
+                //     student_name: name,
+                //     email: email,
+                //     password: password
+                // });
+                firebase.auth().createUserWithEmailAndPassword(email, password).catch(function(error) {
+                    // Handle Errors here.
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    if (errorCode == 'auth/weak-password') {
+                        alert('The password is too weak.');
+                      } else {
+                        alert(errorMessage);
+                      }
+                      console.log(error);
+                    // ...
+                  });
             }
             }
             
