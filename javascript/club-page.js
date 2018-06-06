@@ -41,9 +41,7 @@ firebase.auth().onAuthStateChanged(function(user) {
         var member = snapshot.val();
 		console.log(member);
 		if (member!== null) {
-			document.getElementById("option").innerHTML="<h2>Option</h2><body class='btn-group'>"
-				+"<button class='button' type='button' id='post'><i>Post an announcement</i></button>"
-				+"</body>";
+			document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' id='post'><i>Post an announcement</i></button>";
 		}
 		document.getElementById("post").onclick = function() {
 			window.location.href="post-announcement.html?club="+club;
@@ -54,11 +52,9 @@ firebase.auth().onAuthStateChanged(function(user) {
         var admin = snapshot.val();
 		console.log(admin);
 		if (admin!== null) {
-			document.getElementById("option").innerHTML="<h2>Option</h2><body class='btn-group'>"
-				+"<button class='button' type='button' id='post'><i>Post an announcement</i></button><p></p>"
-				+"<button class='button' type='button' id='add-member'><i>Add a new member</i></button><p></p>"
-				+"<button class='button' type='button' id='remove-member'><i>Remove a member</i></button>"
-				+"</body>";
+			document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' id='post'><i>Post an announcement</i></button><p></p>"
+				+"<button type='button' class='btn btn-primary' id='add-member'><i>Add a new member</i></button><p></p>"
+				+"<button type='button' class='btn btn-primary' id='remove-member'><i>Remove a member</i></button>";
 		}
 		document.getElementById("post").onclick = function() {
 			window.location.href="post-announcement.html?club="+club;
@@ -84,7 +80,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                 // html=html+"<li>" +admin[id] + "</li>";
             }
         }
-		document.getElementById("admin list").innerHTML = html;
+		document.getElementById("admin-list").innerHTML = html;
     });
 	
 	firebase.database().ref("clubs/"+club+"/members").on('value', function (snapshot) {
@@ -98,7 +94,7 @@ firebase.auth().onAuthStateChanged(function(user) {
                 // html=html+"<li>" +members[id] + "</li><p></p>";
             }
         }
-		document.getElementById("member list").innerHTML = html;
+		document.getElementById("member-list").innerHTML = html;
     });
 	
 	firebase.database().ref("clubs/"+club+"/announcement_list").on('value', function (snapshot) {

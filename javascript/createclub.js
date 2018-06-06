@@ -42,7 +42,9 @@ $( document ).ready( function () {
             database.ref('students/' + student_id).once("value").then(function (snapshot) {
                 var student_name = snapshot.val()["student_name"];
                 console.log(student_name);
+                // ALERT! synch problems
                 database.ref('clubs/' + club_name + '/admin/' + student_id).set(student_name);
+                database.ref('clubs/' + club_name + '/members/' + student_id).set(student_name);
                 storage.ref("photos/" + picture_name).put(picture, metadata).then(function (snapshot) {
                     alert("Club Page is created!");
                     window.location.href = "club-page.html?club=" + club_name

@@ -64,11 +64,13 @@ function postAnnouncement(club) {
 		document.getElementById("err").innerHTML = err.message;
 		}
 		return;
-	};
+	}
 	
-	firebase.database().ref("clubs/"+club+"/member/"+user_id).on('value', function (snapshot) {
+	firebase.database().ref("clubs/"+club+"/members/"+user_id).on('value', function (snapshot) {
         var name = snapshot.val();
         console.log(name);
+        console.log(club);
+        console.log(user_id);
 		var content=document.getElementById("announcementContent").value;
 		var date = new Date();
 		date = date.toDateString();
