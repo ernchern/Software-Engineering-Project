@@ -52,9 +52,10 @@ document.getElementById("post").addEventListener("click", function() {
 
 function postAnnouncement(club) {
 
-	var user = firebase.auth().currentUser.student_id;
-	
-	var title=document.getElementById("announcementTitle").value;
+	var user_id = 0;
+	firebase.auth().onAuthStateChanged(function(user) {
+		user_id=user.displayName;
+		var title=document.getElementById("announcementTitle").value;
 	if (title==="") {
 		try {
 		alert("Please enter a title.");
@@ -65,7 +66,7 @@ function postAnnouncement(club) {
 		return;
 	};
 	
-	firebase.database().ref("clubs/"+club+"/member/"+user).on('value', function (snapshot) {
+	firebase.database().ref("clubs/"+club+"/member/"+user_id).on('value', function (snapshot) {
         var name = snapshot.val();
         console.log(name);
 		var content=document.getElementById("announcementContent").value;
@@ -86,7 +87,10 @@ function postAnnouncement(club) {
 		document.getElementById("success").innerHTML="Successfully posted! Click to return to club page.";
 		document.getElementById("return").innerHTML="<button type='button' onclick=return_club()><i>Click</i></button>";
 	});
-}
+	});
+	
+	
+	}
 function return_club() {
 	window.location="club-page.html?club="+club;
 }
