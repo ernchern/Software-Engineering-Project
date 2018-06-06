@@ -33,6 +33,14 @@ $( document ).ready( function () {
             student_id = user_id;
             authorizedPage = 1;
         }
+        if (authorizedPage == 1){
+            var button = '<a href="create-club.html"> \
+            <button type="button" class="btn btn-secondary"> \
+                <i class="fa fa-plus-square-o"></i>&nbsp; Create club \
+            </button> \
+        </a>'
+            document.getElementById("create-club-but").innerHTML += button;
+        }
     
      console.log(student_id);
     //populate_page(student_id);
@@ -69,13 +77,6 @@ $( document ).ready( function () {
                     document.getElementById("clubs-entered").innerHTML += clubsList;
                     
                     if (authorizedPage) {
-
-                        button = '<a href="create-club.html"> \
-                                    <button type="button" class="btn btn-secondary"> \
-                                        <i class="fa fa-plus-square-o"></i>&nbsp; Create club \
-                                    </button> \
-                                </a>'
-                        document.getElementById("create-club-but").innerHTML += button;
                         var query = firebase.database().ref("clubs/"+club+"/announcement_list").orderByKey();
                         query.once("value")
                           .then(function(snapshot) {
