@@ -11,6 +11,8 @@ var database = firebase.database();
 var storage = firebase.storage();
 var student_id = 0;
 var student_name = '';
+var authorizedPage = 0;
+var user_id = 0;
 //var clubs_entered = [];
 
 $( document ).ready( function () {
@@ -18,82 +20,125 @@ $( document ).ready( function () {
     //var studentId = firebase.auth().currentUser.uid;
     var urlParams = new URLSearchParams(window.location.search);
     student_id = urlParams.get('student');
-    //populate_page(student_id);
-
-    database.ref('students/' + student_id).once("value").then(function (snapshot) {
-        console.log(snapshot.val());
-        student_name = snapshot.val()["name"];
-        $("#student-name").text(student_name);
-        clubs_entered = snapshot.val()["clubs"];
-       
-        //add list of clubs to html:
-        for (var I = 0; I < clubs_entered.length; I++)
-        {
-                let ii = I; //make I constant for one iteration;
-                var club = clubs_entered[ii];
-                clubsList = "<li class='list-group-item'><a href='club-page.html?club=" + club+ "'>" + club + "</a></li>";
-                document.getElementById("clubs-entered").innerHTML += clubsList;
-               
-                var query = firebase.database().ref("clubs/"+clubs_entered[ii]+"/announcement_list").orderByKey();
-                query.once("value")
-                  .then(function(snapshot) {
-                    snapshot.forEach(function(childSnapshot) {
-                        var key = childSnapshot.key;
-                        var ref = firebase.database().ref("clubs/"+key+"/announcement_list");
-                        ref.once("value")
-                          .then(function(snapshot) {
-                            var author = childSnapshot.val()["announcement_author"];
-                            var body = childSnapshot.val()["announcement_body"];
-                            var date = childSnapshot.val()["announcement_date"];
-                            var title = childSnapshot.val()["announcement_title"];
-                            
-                            //add announcement to html
-                             announcement = 
-                             '<div class="row">\
-                                 <div class="col-md-8 offset-md-3 mr-auto ml-auto"> \
-                                    <div class="card"> \
-                                        <div class="card-header"> \
-                                            <strong class="card-title">' + title + '</strong> \
-                                            <small><span class="badge badge-light float-right mt-1">' + date + '</span></small> \
-                                            <small><span class="badge badge-light float-right mt-1"><a href="student-page.html?student=' + author + '">' + author + '</a></span></small> \
-                                            <br><small><span class="badge badge-light float-right mt-1">\
-                                                <a href="club-page.html?club=' + club + '">' 
-                                                + club + 
-                                            '</a></span></small>\
-                                        </div> \
-                                        <div class="card-body">\
-                                            <p class="card-text">' + body + '</p> \
-                                        </div> \
-                                    </div> \
-                                 </div>\
-                            </div>';
-                            
-                            document.getElementById("feed").innerHTML += announcement;
-
- 
-                        });
-                    });
-                });
+    console.log(student_id);
+    
+     firebase.auth().onAuthStateChanged(function(user) {
+        user_id = user.displayName;
+        console.log("current user " +  user_id);
+        if (student_id==user_id) {
+            student_id = user_id;
+            authorizedPage = 1; //to show announcements
         }
+        if (student_id == null){
+            student_id = user_id;
+            authorizedPage = 1;
+        }
+    
+     console.log(student_id);
+    //populate_page(student_id);
+    var clubs_entered = [];
+    database.ref('students/' + student_id).once("value").then(function (snapshot) {
+        student_name = snapshot.val()["student_name"];
+        profile_photo = snapshot.val()["profile_picture"];
+        if (profile_photo==null){
+            photo = "images/avatar/default.png";
+            document.getElementById("profile-photo").src = photo;
+        }
+        else {
+            var storageRef = storage.ref('photos')
+            firebase.storage().ref().child('photos/'+profile_photo).getDownloadURL().then(function(url) {
+            var photo= url;
+            document.getElementById("profile-photo").src = photo;
+            });
+        }
+        $("#student-name").text(student_name);
+
+
+        var ref = firebase.database().ref("clubs");
+        ref.once("value")
+          .then(function(snapshot) {
+                snapshot.forEach(function(childSnapshot) {
+                    var memberExist = childSnapshot.child("members/"+student_id).exists();
+                    if (memberExist) {
+                    clubs_entered.push(childSnapshot.key);
+                    club = childSnapshot.key;
+                    console.log(childSnapshot.key);
+                    console.log(clubs_entered);
+                      
+                    clubsList = "<li class='list-group-item'><a href='club-page.html?club=" + club+ "'>" + club + "</a></li>";
+                    document.getElementById("clubs-entered").innerHTML += clubsList;
+                    
+                    if (authorizedPage) {
+
+                        button = '<a href="create-club.html"> \
+                                    <button type="button" class="btn btn-secondary"> \
+                                        <i class="fa fa-plus-square-o"></i>&nbsp; Create club \
+                                    </button> \
+                                </a>'
+                        document.getElementById("create-club-but").innerHTML += button;
+                        var query = firebase.database().ref("clubs/"+club+"/announcement_list").orderByKey();
+                        query.once("value")
+                          .then(function(snapshot) {
+                            snapshot.forEach(function(childSnapshot) {
+                                var key = childSnapshot.key;
+                                var ref = firebase.database().ref("clubs/"+key+"/announcement_list");
+                                ref.once("value")
+                                  .then(function(snapshot) {
+                                    var author = childSnapshot.val()["announcement_author"];
+                                    var body = childSnapshot.val()["announcement_body"];
+                                    var date = childSnapshot.val()["announcement_date"];
+                                    var title = childSnapshot.val()["announcement_title"];
+                                    
+                                    //add announcement to html
+                                     announcement = 
+                                     '<div class="row">\
+                                         <div class="col-md-8 offset-md-3 mr-auto ml-auto"> \
+                                            <div class="card"> \
+                                                <div class="card-header"> \
+                                                    <strong class="card-title">' + title + '</strong> \
+                                                    <small><span class="badge badge-light float-right mt-1">' + date + '</span></small> \
+                                                    <small><span class="badge badge-light float-right mt-1"><a href="student-page.html?student=' + author + '">' + author + '</a></span></small> \
+                                                    <br><small><span class="badge badge-light float-right mt-1">\
+                                                        <a href="club-page.html?club=' + club + '">' 
+                                                        + club + 
+                                                    '</a></span></small>\
+                                                </div> \
+                                                <div class="card-body">\
+                                                    <p class="card-text">' + body + '</p> \
+                                                </div> \
+                                            </div> \
+                                         </div>\
+                                    </div>';
+                                    
+                                    document.getElementById("feed").innerHTML += announcement;
+
+     
+                                });
+                            });
+                        });
+                    }
+                }     
+            });
+        });
 
     
     });
-    var managed_clubs = [];
+    var clubs_managed = [];
     var ref = firebase.database().ref("clubs");
     ref.once("value")
       .then(function(snapshot) {
             snapshot.forEach(function(childSnapshot) {
                 var clubExist = childSnapshot.child("admin/"+student_id).exists();
                 if (clubExist) {
-                managed_clubs.push(childSnapshot.key);
+                clubs_managed.push(childSnapshot.key);
                 console.log(childSnapshot.key);
-                console.log(managed_clubs);
+                console.log(clubs_managed);
                 managedClubsList = "<li class='list-group-item'><a href='club-page.html?club=" + childSnapshot.key+ "'>" + childSnapshot.key + "</a></li>";
                 document.getElementById("clubs-managed").innerHTML += managedClubsList;
             }     
         });
     });
-    
+});    
 });
 
 
