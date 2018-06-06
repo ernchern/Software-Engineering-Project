@@ -43,7 +43,7 @@ $( document ).ready( function () {
                     student_name = '';
                 }
                 else {
-                    student_name = snapshot.val()["name"];
+                    student_name = snapshot.val()["student_name"];
                     console.log(student_name);
                     var search_result = $("#search_result");
                     search_result.empty();

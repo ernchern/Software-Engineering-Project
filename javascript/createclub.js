@@ -30,10 +30,10 @@ $( document ).ready( function () {
         else {
             console.log(picture);
             database.ref('clubs/' + club_name).set({
-                admin_id: 20140904,
                 club_description: club_desc,
                 club_picture: picture_name
             });
+            database.ref('clubs/' + club_name + '/admin/' + '20140904').set('Alisher');
             storage.ref("photos/" + picture_name).put(picture, metadata).then(function (snapshot) {
                 alert("Club Page is created!");
                 window.location.href = "club-page.html?club=" + club_name
