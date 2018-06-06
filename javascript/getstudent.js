@@ -12,41 +12,48 @@ var storage = firebase.storage();
 var student_id = 0;
 var student_name = '';
 var authorizedPage = 0;
+var user_id = 0;
 //var clubs_entered = [];
 
 $( document ).ready( function () {
     //var student_id = 20140940;
     //var studentId = firebase.auth().currentUser.uid;
     var urlParams = new URLSearchParams(window.location.search);
-
-
-    var user = firebase.auth().currentUser;
-    console.log("current user " +  firebase.auth().currentUser);
-    user_id = 0;
-    if (user != null) {
-        console.log("here");
-        user_id = user.displayName;
-    }
-
     student_id = urlParams.get('student');
-    if (student_id==null and user!=null) {
-        student_id = user_id;
-        authorizedPage = 1; //to show announcements
-    }
-
-    if (student_id==user_id) {
-        student_id = user_id;
-        authorizedPage = 1; //to show announcements
-    }
-    console.log(user_id);
-    console.log(authorizedPage);
+    console.log(student_id);
+    
+     firebase.auth().onAuthStateChanged(function(user) {
+        user_id = user.displayName;
+        console.log("current user " +  user_id);
+        if (student_id==user_id) {
+            student_id = user_id;
+            authorizedPage = 1; //to show announcements
+        }
+        if (student_id == null){
+            student_id = user_id;
+            authorizedPage = 1;
+        }
+    
+     console.log(student_id);
     //populate_page(student_id);
     var clubs_entered = [];
     database.ref('students/' + student_id).once("value").then(function (snapshot) {
-        console.log(snapshot.val().key);
         student_name = snapshot.val()["student_name"];
+        profile_photo = snapshot.val()["profile_picture"];
+        if (profile_photo==null){
+            photo = "images/avatar/default.png";
+            document.getElementById("profile-photo").src = photo;
+        }
+        else {
+            var storageRef = storage.ref('photos')
+            firebase.storage().ref().child('photos/'+profile_photo).getDownloadURL().then(function(url) {
+            var photo= url;
+            document.getElementById("profile-photo").src = photo;
+            });
+        }
         $("#student-name").text(student_name);
-        
+
+
         var ref = firebase.database().ref("clubs");
         ref.once("value")
           .then(function(snapshot) {
@@ -62,6 +69,13 @@ $( document ).ready( function () {
                     document.getElementById("clubs-entered").innerHTML += clubsList;
                     
                     if (authorizedPage) {
+
+                        button = '<a href="create-club.html"> \
+                                    <button type="button" class="btn btn-secondary"> \
+                                        <i class="fa fa-plus-square-o"></i>&nbsp; Create club \
+                                    </button> \
+                                </a>'
+                        document.getElementById("create-club-but").innerHTML += button;
                         var query = firebase.database().ref("clubs/"+club+"/announcement_list").orderByKey();
                         query.once("value")
                           .then(function(snapshot) {
@@ -124,7 +138,7 @@ $( document ).ready( function () {
             }     
         });
     });
-    
+});    
 });
 
 
