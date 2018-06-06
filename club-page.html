@@ -72,9 +72,32 @@
 </script>
 
 <body>
-<h1 id="club name"></h1>
-<p id="club description"></p>
+	<div class="column left" id="club picture">
+		<img src="test" height="250" width="250"/>
+	</div>
+	<div class="column middle">
+		<h1 id="club name"></h1>
+		<p id="club description"></p>
+	</div>
 
+	<script>
+	var str = decodeURIComponent(window.location.search);
+	var theleft = str.indexOf("=") + 1;
+	var club=str.substring(theleft,str.length);
+	firebase.database().ref("clubs/"+club+"/club_picture").on('value', function (snapshot) {
+        var addr = snapshot.val();
+        console.log(addr);
+		firebase.storage().ref().child('photos/'+addr).getDownloadURL().then(function(url) {
+             var test = url;
+			 document.querySelector('img').src = test;
+
+        });
+	});
+	
+	</script>
+
+</body>
+<body>
 <script>
 var str = decodeURIComponent(window.location.search);
 var theleft = str.indexOf("=") + 1;
@@ -94,6 +117,9 @@ function (snapshot) {
 	<h2>Member List</h2>
 	<ul id="member list"></ul>
     <script>
+	var str = decodeURIComponent(window.location.search);
+	var theleft = str.indexOf("=") + 1;
+	var club=str.substring(theleft,str.length);
 	firebase.database().ref("clubs/"+club+"/admin").on('value', function (snapshot) {
         var admin = snapshot.val();
         console.log(admin);
@@ -150,7 +176,7 @@ var user_id=firebase.auth().currentUser.id;
 
 firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function (snapshot) {
         var member = snapshot.val();
-		console.log(admin);
+		console.log(member);
 		if (member!== null) {
 			document.getElementById("option").innerHTML="<h2>Option</h2><body class='btn-group'>"
 				+"<button class='button' type='button' id='post'><i>Post an announcement</i></button>"
