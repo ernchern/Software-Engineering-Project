@@ -37,31 +37,34 @@ function (snapshot) {
 var user_id=0;
 firebase.auth().onAuthStateChanged(function(user) {
 	user_id=user.displayName;
+	var club_rights = 0;
 	firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function (snapshot) {
         var member = snapshot.val();
 		console.log(member);
-		if (member!== null) {
+		if (member!== null && club_rights < 1) {
+		    club_rights = 1;
 			document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' id='post'><i>Post an announcement</i></button>";
+			document.getElementById("post").onclick = function() {
+                window.location.href="post-announcement.html?club="+club;
+            };
 		}
-		document.getElementById("post").onclick = function() {
-			window.location.href="post-announcement.html?club="+club;
-		};
 	});	
 
 	firebase.database().ref("clubs/"+club+"/admin/"+ user_id).on('value', function (snapshot) {
         var admin = snapshot.val();
 		console.log(admin);
-		if (admin!== null) {
+		if (admin!== null && club_rights < 2) {
+		    club_rights = 2;
 			document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' id='post'><i>Post an announcement</i></button><p></p>"
 				+"<button type='button' class='btn btn-primary' id='add-member'><i>Add a new member</i></button><p></p>"
 				+"<button type='button' class='btn btn-primary' id='remove-member'><i>Remove a member</i></button>";
+			document.getElementById("post").onclick = function() {
+                window.location.href="post-announcement.html?club="+club;
+            };
+			document.getElementById("add-member").onclick = function() {
+                window.location.href="add-member.html?club="+club;
+            };
 		}
-		document.getElementById("post").onclick = function() {
-			window.location.href="post-announcement.html?club="+club;
-		};
-		document.getElementById("add-member").onclick = function() {
-			window.location.href="add-member.html?club="+club;
-		};
     });
     
 });
