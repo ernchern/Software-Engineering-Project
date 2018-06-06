@@ -15,8 +15,8 @@ firebase.database().ref("clubs/"+club+"/club_picture").on('value', function (sna
     var addr = snapshot.val();
     console.log(addr);
     firebase.storage().ref().child('photos/'+addr).getDownloadURL().then(function(url) {
-         var test = url;
-         document.querySelector('img').src = test;
+         document.getElementById("club-picture").src = url;
+         // document.querySelector('img').src = test;
 
     });
 });
@@ -80,7 +80,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 		var html="";
         for (id in admin) {
             if (admin.hasOwnProperty(id)) {
-                html=html+"<li>" +admin[id] + "</li>";	
+                html += "<li class='list-group-item'><a href='club-page.html?student=" + id + "'>" + admin[id] + "</a></li>";
+                // html=html+"<li>" +admin[id] + "</li>";
             }
         }
 		document.getElementById("admin list").innerHTML = html;
@@ -93,7 +94,8 @@ firebase.auth().onAuthStateChanged(function(user) {
 		var html="";
         for (id in members) {
             if (members.hasOwnProperty(id)) {
-                html=html+"<li>" +members[id] + "</li><p></p>";	
+                html += "<li class='list-group-item'><a href='club-page.html?student=" + id + "'>" + members[id] + "</a></li>";
+                // html=html+"<li>" +members[id] + "</li><p></p>";
             }
         }
 		document.getElementById("member list").innerHTML = html;
