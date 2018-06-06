@@ -171,7 +171,7 @@ function (snapshot) {
 </div>
 
 <script>
-var user_id=firebase.auth().currentUser.id;
+var user_id=firebase.auth().currentUser.student_id;
 //var user_id=20140940;
 
 firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function (snapshot) {
