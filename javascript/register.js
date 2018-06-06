@@ -49,7 +49,19 @@ var config = {
                 // });
                 firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
                     // Sign-out successful.
-                    window.location.replace("index.html");
+                    var user = firebase.auth().currentUser;
+                    user.updateProfile({
+                      displayName: student_id,
+                      photoURL: "https://example.com/jane-q-user/profile.jpg"
+                    }).then(function() {
+                      database.ref('students/' + student_id).set({
+                        student_name: name,
+                        email: email
+                      });
+                    }).catch(function(error) {
+                      alert(error.message);
+                    });
+                    window.location.replace("student-profile.html?student=" + student_id);
                   }).catch(function(error) {
                 // Handle Errors here.
                 var errorCode = error.code;

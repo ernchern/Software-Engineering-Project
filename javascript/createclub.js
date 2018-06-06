@@ -33,10 +33,20 @@ $( document ).ready( function () {
                 club_description: club_desc,
                 club_picture: picture_name
             });
-            database.ref('clubs/' + club_name + '/admin/' + '20140904').set('Alisher');
-            storage.ref("photos/" + picture_name).put(picture, metadata).then(function (snapshot) {
-                alert("Club Page is created!");
-                window.location.href = "club-page.html?club=" + club_name
+            var user = firebase.auth().currentUser;
+            var student_id = 0;
+            if (user != null) {
+                student_id = user.displayName;
+            }
+            console.log(student_id);
+            database.ref('students/' + student_id).once("value").then(function (snapshot) {
+                var student_name = snapshot.val()["student_name"];
+                console.log(student_name);
+                database.ref('clubs/' + club_name + '/admin/' + student_id).set(student_name);
+                storage.ref("photos/" + picture_name).put(picture, metadata).then(function (snapshot) {
+                    alert("Club Page is created!");
+                    window.location.href = "club-page.html?club=" + club_name
+                });
             });
         }
 
