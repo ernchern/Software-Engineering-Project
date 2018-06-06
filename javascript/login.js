@@ -37,12 +37,12 @@ var config = {
                 console.log(email);
                 firebase.auth().signInWithEmailAndPassword(email, password).then(function() {
                     // Sign-out successful.
-                    var user = firebase.auth().currentUser;
-                    var student_id = 0;
-                    if (user != null) {
-                        student_id = user.displayName;
-                    }
-                    window.location.replace("student-profile.html?student=" + student_id);
+                    firebase.auth().onAuthStateChanged(function (user) {
+                        if(user) {
+                            student_id = user.displayName;
+                            window.location.replace("student-profile.html?student=" + student_id);
+                        }
+                    });
                   }).catch(function(error) {
                     // Handle Errors here.
                     var errorCode = error.code;

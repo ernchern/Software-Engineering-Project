@@ -18,8 +18,7 @@ var config = {
     
     $( document ).ready( function () {
         // Get query parameters        
-        console.log("in?")
-        console.log(name);
+        // console.log("in?")
         $('#checkbox').click(function(){
             if(document.getElementById("registerSubmit").disabled == true)
             $('#registerSubmit').prop('disabled',false);
@@ -29,10 +28,15 @@ var config = {
 
         $('#registerSubmit').click(function (event) {  
             event.preventDefault();
-            var student_id = $('#userRegister').val()
-            var name = $('#nameRegister').val()
-            var email = $('#emailRegister').val()
-            var password = $('#passwordRegister').val()
+            var student_id = $('#userRegister').val();
+            var name = $('#nameRegister').val();
+            var email = $('#emailRegister').val();
+            var password = $('#passwordRegister').val();
+            const picture = $("#profile_pic").get(0).files[0];
+            const picture_name = (+new Date()) + '-' + picture.name;
+            const metadata = {
+                contentType: picture.type
+            };
 
             if (student_id.length === 0) {
                 alert("Please fill in the student id");
@@ -40,48 +44,44 @@ var config = {
                 student_id = 0;
             }
             else{
-            if (student_id !== 0) {
-                console.log("inside if");
-                // database.ref('students/' + student_id).set({
-                //     student_name: name,
-                //     email: email,
-                //     password: password
-                // });
-                firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
-                    // Sign-out successful.
-                    var user = firebase.auth().currentUser;
-                    user.updateProfile({
-                      displayName: student_id,
-                      photoURL: "https://example.com/jane-q-user/profile.jpg"
-                    }).then(function() {
-                      database.ref('students/' + student_id).set({
-                        student_name: name,
-                        email: email
-                      });
+                if (student_id !== 0) {
+                    console.log("inside if");
+                    firebase.auth().createUserWithEmailAndPassword(email, password).then(function() {
+                        // Sign-out successful.
+                        firebase.auth().onAuthStateChanged(function (user) {
+                            if(user) {
+                                user.updateProfile({
+                                    displayName: student_id
+                                }).then(function() {
+                                    database.ref('students/' + student_id).set({
+                                        student_name: name,
+                                        email: email,
+                                        profile_picture: picture_name
+                                    }).then(function (snapshot) {
+                                        storage.ref("photos/" + picture_name).put(picture, metadata).then(function (snapshot) {
+                                            alert("Club Page is created!");
+                                            window.location.replace("student-profile.html?student=" + student_id);
+                                        });
+                                    });
+                                }).catch(function(error) {
+                                    alert(error.message);
+                                });
+                            }
+                        });
                     }).catch(function(error) {
-                      alert(error.message);
+                        // Handle Errors here.
+                        var errorCode = error.code;
+                        var errorMessage = error.message;
+                        console.log(error);
+                        if (errorCode == 'auth/weak-password') {
+                            alert('The password is too weak.');
+                        } else {
+                            alert(errorMessage);
+                        }
                     });
-                    window.location.replace("student-profile.html?student=" + student_id);
-                  }).catch(function(error) {
-                // Handle Errors here.
-                var errorCode = error.code;
-                var errorMessage = error.message;
-                console.log(error);
-                if (errorCode == 'auth/weak-password') {
-                    alert('The password is too weak.');
-                } else {
-                    alert(errorMessage);
                 }
-                
-                });
-                
-                
             }
-            }
-            
-          })
-          
-         
+        })
     });    
           
     function logUser(user,student_id) {
