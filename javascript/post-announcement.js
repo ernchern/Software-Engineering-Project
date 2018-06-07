@@ -53,7 +53,7 @@ firebase.database().ref("clubs/"+club+"/members/"+user_id).on('value', function 
 		updates['/clubs/'+club+'/announcement_list/' + newAnnouncementKey] = announcementData;
 		firebase.database().ref().update(updates);
 	document.getElementById("success").innerHTML="Successfully posted! Click to return to club page.";
-	document.getElementById("return").innerHTML="<button type='button' onclick=return_club()><i>Click</i></button>";
+	document.getElementById("return").innerHTML="<button class='btn btn-link' onclick=return_club()><i>Click</i></button>";
 });
 });
 
