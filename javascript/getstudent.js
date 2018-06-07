@@ -78,13 +78,11 @@ $( document ).ready( function () {
                     
                     if (authorizedPage) {
                         var query = firebase.database().ref("clubs/"+club+"/announcement_list").orderByKey();
+                        var club_c = club;
                         query.once("value")
                           .then(function(snapshot) {
                             snapshot.forEach(function(childSnapshot) {
-                                var key = childSnapshot.key;
-                                var ref = firebase.database().ref("clubs/"+key+"/announcement_list");
-                                ref.once("value")
-                                  .then(function(snapshot) {
+
                                     var author = childSnapshot.val()["announcement_author"];
                                     var body = childSnapshot.val()["announcement_body"];
                                     var date = childSnapshot.val()["announcement_date"];
@@ -100,8 +98,8 @@ $( document ).ready( function () {
                                                     <small><span class="badge badge-light float-right mt-1">' + date + '</span></small> \
                                                     <small><span class="badge badge-light float-right mt-1"><a href="student-page.html?student=' + author + '">' + author + '</a></span></small> \
                                                     <br><small><span class="badge badge-light float-right mt-1">\
-                                                        <a href="club-page.html?club=' + club + '">' 
-                                                        + club + 
+                                                        <a href="club-page.html?club=' + club_c+ '">' 
+                                                        + club_c + 
                                                     '</a></span></small>\
                                                 </div> \
                                                 <div class="card-body">\
@@ -116,7 +114,6 @@ $( document ).ready( function () {
      
                                 });
                             });
-                        });
                     }
                 }     
             });
