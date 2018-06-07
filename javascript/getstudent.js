@@ -35,7 +35,7 @@ $( document ).ready( function () {
         }
         if (authorizedPage == 1){
             var button = '<a href="create-club.html"> \
-            <button type="button" class="btn btn-secondary"> \
+            <button type="button" class="btn btn-secondary" style = "width:100%">\
                 <i class="fa fa-plus-square-o"></i>&nbsp; Create club \
             </button> \
         </a>'

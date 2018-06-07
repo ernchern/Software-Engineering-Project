@@ -31,9 +31,13 @@ function (snapshot) {
 	document.getElementById("club description").innerHTML = snapshot.val()["club_description"];
 	});
 
-document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' style='width:100%' id='post'><i>Post an announcement</i></button><p></p>"
-	+"<button type='button' class='btn btn-primary' style='width:100%'  id='add-member'><i>Add a new member</i></button><p></p>"
-	+"<button type='button' class='btn btn-primary' style='width:100%'  id='remove-member'><i>Remove a member</i></button>";
+// document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' style='width:100%' id='post'><i>Post an announcement</i></button><p></p>"
+// 	+"<button type='button' class='btn btn-primary' style='width:100%'  id='add-member'><i>Add a new member</i></button><p></p>"
+// 	+"<button type='button' class='btn btn-primary' style='width:100%'  id='remove-member'><i>Remove a member</i></button>";
+
+document.getElementById("option").innerHTML="<button type='button' class='btn btn-secondary' style='width:100%' id='post'><i class='fa fa-plus-square'></i>&nbsp; Post an announcement</i></button><p></p>"
+	+"<button type='button' class='btn btn-secondary' style='width:100%' id='add-member'><i class='fa fa-plus-square-o'></i>&nbsp; Add a new member</i></button><p></p>"
+	+"<button type='button' class='btn btn-secondary' style='width:100%' id='remove-member'><i class='fa fa-minus-square-o'></i>&nbsp; Remove a member</i></button>";
 
 document.getElementById("post").onclick = function() {
 			var user_id=0;
@@ -161,9 +165,28 @@ firebase.auth().onAuthStateChanged(function(user) {
         var id;
 		var html="";
         for (id in announcement) {
-                html=html+"<main style='border-style: solid; padding:10px;'><p  style='font-weight: bold;'>" +announcement[id].announcement_title 
-						+ "</p><p>"+announcement[id].announcement_body+"</p><p style='font-style: italic;'> posted by "+announcement[id].announcement_author
-						+" on "+announcement[id].announcement_date+"</p></main>";
+
+        html=html+ 
+         '<div class="row">\
+             <div class="col-md-8 offset-md-3 mr-auto ml-auto"> \
+                <div class="card"> \
+                    <div class="card-header"> \
+                        <strong class="card-title">' + announcement[id].announcement_title  + '</strong> \
+                        <small><span class="badge badge-light float-right mt-1">' + announcement[id].announcement_date + '</span></small> \
+                        <small><span class="badge badge-light float-right mt-1"><a href="student-page.html?student=' + announcement[id].announcement_author + '">' + announcement[id].announcement_author + '</a></span></small> \
+                    </div> \
+                    <div class="card-body">\
+                        <p class="card-text">' + announcement[id].announcement_body + '</p> \
+                    </div> \
+                </div> \
+             </div>\
+        </div>';
+        
+        
+      //           html=html+"<main style='border-style: solid; padding:10px;'><p  style='font-weight: bold;'>" +announcement[id].announcement_title 
+						// + "</p><p>"+announcement[id].announcement_body+"</p><p style='font-style: italic;'> posted by "+announcement[id].announcement_author
+						// +" on "+announcement[id].announcement_date+"</p></main>";
         }
-		document.getElementById("announcement").innerHTML = html;
+		//document.getElementById("announcement").innerHTML = html;
+		document.getElementById("feed").innerHTML = html;
     });
