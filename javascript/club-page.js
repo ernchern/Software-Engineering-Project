@@ -31,9 +31,9 @@ function (snapshot) {
 	document.getElementById("club description").innerHTML = snapshot.val()["club_description"];
 	});
 
-document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' width=100% id='post'><i>Post an announcement</i></button><p></p>"
-	+"<button type='button' class='btn btn-primary' width=100% id='add-member'><i>Add a new member</i></button><p></p>"
-	+"<button type='button' class='btn btn-primary' width=100% id='remove-member'><i>Remove a member</i></button>";
+document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' width='100' id='post'><i>Post an announcement</i></button><p></p>"
+	+"<button type='button' class='btn btn-primary' width='100' id='add-member'><i>Add a new member</i></button><p></p>"
+	+"<button type='button' class='btn btn-primary' id='remove-member'><i>Remove a member</i></button>";
 
 document.getElementById("post").onclick = function() {
 			var user_id=0;
