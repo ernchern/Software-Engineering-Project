@@ -31,7 +31,7 @@ function (snapshot) {
 	document.getElementById("club description").innerHTML = snapshot.val()["club_description"];
 	});
 
-document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' id='post'><i>Post an announcement</i></button><p></p>"
+document.getElementById("option").innerHTML="<button type='button' class='btn btn-primary' width='100%' id='post'><i>Post an announcement</i></button><p></p>"
 	+"<button type='button' class='btn btn-primary' id='add-member'><i>Add a new member</i></button><p></p>"
 	+"<button type='button' class='btn btn-primary' id='remove-member'><i>Remove a member</i></button>";
 
