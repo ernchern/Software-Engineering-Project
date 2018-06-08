@@ -43,35 +43,16 @@ var config = {
                             window.location.replace("student-profile.html?student=" + student_id);
                         }
                     });
-                  }).catch(function(error) {
+                }).catch(function(error) {
                     // Handle Errors here.
                     var errorCode = error.code;
                     var errorMessage = error.message;
                     console.log(error);
-                    
+
                     alert(errorMessage);
-                    
+
                     // ...
-                  });
-                // database.ref('students/' + student_id).once("value").then(function (snapshot) {
-                //     console.log(snapshot.val());
-                //     if (snapshot.val() === null) {
-                //         alert("No student with such ID");
-                //         student_id = 0;
-                //         student_pass = '';
-                //     }
-                //     else if(snapshot.val().password != student_pass){
-                //         alert("Incorrect Password");
-                //         student_id = 0;
-                //         student_pass = '';
-                //     }
-                //     else {
-                //         //login success
-                //         window.location.replace("index.html");
-                //         // onclick="location.href='index.html';" 
-                        
-                //     }
-                // });
+                });
             }
     
         });
