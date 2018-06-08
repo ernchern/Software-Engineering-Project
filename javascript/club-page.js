@@ -11,8 +11,12 @@ firebase.initializeApp(config);
 var user_id=0;
 firebase.auth().onAuthStateChanged(function(user) {
    console.log("user: ", user);
+   
    if (user !== null){
        user_id = user.displayName;
+	   var str = decodeURIComponent(window.location.search);
+		var theleft = str.indexOf("=") + 1;
+		var club=str.substring(theleft,str.length);
        document.getElementById("option").innerHTML="<button type='button' class='btn btn-secondary' style='width:100%' id='post'><i class='fa fa-plus-square'></i>&nbsp; Post an announcement</i></button><p></p>"
            +"<button type='button' class='btn btn-secondary' style='width:100%' id='add-member'><i class='fa fa-plus-square-o'></i>&nbsp; Add a new member</i></button><p></p>"
            +"<button type='button' class='btn btn-secondary' style='width:100%' id='remove-member'><i class='fa fa-minus-square-o'></i>&nbsp; Remove a member</i></button>";
