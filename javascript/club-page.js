@@ -6,7 +6,53 @@ var config = {
     storageBucket: "kaist-scms.appspot.com",
     messagingSenderId: "716217260337"
   };
-  firebase.initializeApp(config);
+firebase.initializeApp(config);
+
+var user_id=0;
+firebase.auth().onAuthStateChanged(function(user) {
+   console.log("user: ", user);
+   if (user !== null){
+       user_id = user.displayName;
+       document.getElementById("option").innerHTML="<button type='button' class='btn btn-secondary' style='width:100%' id='post'><i class='fa fa-plus-square'></i>&nbsp; Post an announcement</i></button><p></p>"
+           +"<button type='button' class='btn btn-secondary' style='width:100%' id='add-member'><i class='fa fa-plus-square-o'></i>&nbsp; Add a new member</i></button><p></p>"
+           +"<button type='button' class='btn btn-secondary' style='width:100%' id='remove-member'><i class='fa fa-minus-square-o'></i>&nbsp; Remove a member</i></button>";
+       document.getElementById("post").onclick = function() {
+
+            firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function (snapshot) {
+                var member = snapshot.val();
+                console.log(member);
+                //is member
+                if (member!== null) {
+                    window.location.href="post-announcement.html?club="+club;
+                } else {
+                    try {
+                    alert("You are not member.");
+                    }
+                    catch(err) {
+                    document.getElementById("err").innerHTML = err.message;
+                    }
+                }
+            });
+       };
+       document.getElementById("add-member").onclick = function() {
+            firebase.database().ref("clubs/"+club+"/admin/"+ user_id).on('value', function (snapshot) {
+                var admin = snapshot.val();
+                console.log(admin);
+                //is admin
+                if (admin!== null) {
+                    window.location.href="add-member.html?club="+club;
+                } else {
+                    try {
+                        alert("You are not admin.");
+                        }
+                        catch(err) {
+                        document.getElementById("err").innerHTML = err.message;
+                        }
+                }
+            });
+       }
+   }
+});
 
 var str = decodeURIComponent(window.location.search);
 var theleft = str.indexOf("=") + 1;
@@ -35,57 +81,58 @@ function (snapshot) {
 // 	+"<button type='button' class='btn btn-primary' style='width:100%'  id='add-member'><i>Add a new member</i></button><p></p>"
 // 	+"<button type='button' class='btn btn-primary' style='width:100%'  id='remove-member'><i>Remove a member</i></button>";
 
-document.getElementById("option").innerHTML="<button type='button' class='btn btn-secondary' style='width:100%' id='post'><i class='fa fa-plus-square'></i>&nbsp; Post an announcement</i></button><p></p>"
-	+"<button type='button' class='btn btn-secondary' style='width:100%' id='add-member'><i class='fa fa-plus-square-o'></i>&nbsp; Add a new member</i></button><p></p>"
-	+"<button type='button' class='btn btn-secondary' style='width:100%' id='remove-member'><i class='fa fa-minus-square-o'></i>&nbsp; Remove a member</i></button>";
+// document.getElementById("option").innerHTML="<button type='button' class='btn btn-secondary' style='width:100%' id='post'><i class='fa fa-plus-square'></i>&nbsp; Post an announcement</i></button><p></p>"
+// 	+"<button type='button' class='btn btn-secondary' style='width:100%' id='add-member'><i class='fa fa-plus-square-o'></i>&nbsp; Add a new member</i></button><p></p>"
+// 	+"<button type='button' class='btn btn-secondary' style='width:100%' id='remove-member'><i class='fa fa-minus-square-o'></i>&nbsp; Remove a member</i></button>";
 
-document.getElementById("post").onclick = function() {
-			var user_id=0;
-			firebase.auth().onAuthStateChanged(function(user) {
-				user_id=user.displayName;
-				//user_id=20100904;
-				firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function (snapshot) {
-					var member = snapshot.val();
-					console.log(member);
-					//is member
-					if (member!== null) {
-						window.location.href="post-announcement.html?club="+club;
-					} else {
-						try {
-						alert("You are not member.");
-						}
-						catch(err) {
-						document.getElementById("err").innerHTML = err.message;
-						}
-						return;
-					}
-                });
-			});
-};
+// document.getElementById("post").onclick = function() {
+// 			var user_id=0;
+// 			firebase.auth().onAuthStateChanged(function(user) {
+// 			    console.log("user:", user);
+// 				user_id=user.displayName;
+// 				//user_id=20100904;
+// 				firebase.database().ref("clubs/"+club+"/members/"+ user_id).on('value', function (snapshot) {
+// 					var member = snapshot.val();
+// 					console.log(member);
+// 					//is member
+// 					if (member!== null) {
+// 						window.location.href="post-announcement.html?club="+club;
+// 					} else {
+// 						try {
+// 						alert("You are not member.");
+// 						}
+// 						catch(err) {
+// 						document.getElementById("err").innerHTML = err.message;
+// 						}
+// 						return;
+// 					}
+//                 });
+// 			});
+// };
 
-document.getElementById("add-member").onclick = function() {
-			var user_id=0;
-			firebase.auth().onAuthStateChanged(function(user) {
-				user_id=user.displayName;
-				//user_id=20100904
-				firebase.database().ref("clubs/"+club+"/admin/"+ user_id).on('value', function (snapshot) {
-					var admin = snapshot.val();
-					console.log(admin);
-					//is admin
-					if (admin!== null) {
-						window.location.href="add-member.html?club="+club;
-					} else {
-						try {
-							alert("You are not admin.");
-							}
-							catch(err) {
-							document.getElementById("err").innerHTML = err.message;
-							}
-							return;
-					}
-				});
-			});
-};
+// document.getElementById("add-member").onclick = function() {
+// 			var user_id=0;
+// 			firebase.auth().onAuthStateChanged(function(user) {
+// 				user_id=user.displayName;
+// 				//user_id=20100904
+// 				firebase.database().ref("clubs/"+club+"/admin/"+ user_id).on('value', function (snapshot) {
+// 					var admin = snapshot.val();
+// 					console.log(admin);
+// 					//is admin
+// 					if (admin!== null) {
+// 						window.location.href="add-member.html?club="+club;
+// 					} else {
+// 						try {
+// 							alert("You are not admin.");
+// 							}
+// 							catch(err) {
+// 							document.getElementById("err").innerHTML = err.message;
+// 							}
+// 							return;
+// 					}
+// 				});
+// 			});
+// };
 /*
 var user_id=0;
 

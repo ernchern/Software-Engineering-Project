@@ -23,6 +23,7 @@ $( document ).ready( function () {
     console.log(student_id);
     
      firebase.auth().onAuthStateChanged(function(user) {
+         console.log("user:", user);
         user_id = user.displayName;
         console.log("current user " +  user_id);
         if (student_id==user_id) {

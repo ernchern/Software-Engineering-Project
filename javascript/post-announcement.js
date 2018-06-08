@@ -20,6 +20,7 @@ function postAnnouncement(club) {
 
 var user_id = 0;
 firebase.auth().onAuthStateChanged(function(user) {
+	console.log("user:", user);
 	user_id=user.displayName;
 	var title=document.getElementById("announcementTitle").value;
 if (title==="") {

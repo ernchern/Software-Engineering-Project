@@ -75,6 +75,7 @@ $( document ).ready( function () {
         $("#search_result").empty();
         student_id = 0;
         student_name = '';
+        window.location.href="club-page.html?club="+club;
     });
 });
 
