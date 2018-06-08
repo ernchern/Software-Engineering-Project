@@ -59,7 +59,7 @@ var config = {
                                         profile_picture: picture_name
                                     }).then(function (snapshot) {
                                         storage.ref("photos/" + picture_name).put(picture, metadata).then(function (snapshot) {
-                                            alert("Club Page is created!");
+                                            alert("Sign up complete!");
                                             window.location.replace("student-profile.html?student=" + student_id);
                                         });
                                     });
