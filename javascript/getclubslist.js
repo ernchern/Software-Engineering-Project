@@ -15,7 +15,7 @@
 // var user_id = 0;
 //var clubs_entered = [];
 
-$( document ).ready( function () {
+
 
     var ref = firebase.database().ref("clubs");
     ref.once("value")
@@ -26,7 +26,7 @@ $( document ).ready( function () {
             document.getElementById("clubs-all").innerHTML += clubsList;
     });
 });
-});    
+
 
 
 

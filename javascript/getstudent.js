@@ -15,7 +15,7 @@ var authorizedPage = 0;
 var user_id = 0;
 //var clubs_entered = [];
 
-$( document ).ready( function () {
+// $( document ).ready( function () {
     //var student_id = 20140940;
     //var studentId = firebase.auth().currentUser.uid;
     var urlParams = new URLSearchParams(window.location.search);
@@ -138,6 +138,6 @@ $( document ).ready( function () {
         });
     });
 });    
-});
+
 
 
